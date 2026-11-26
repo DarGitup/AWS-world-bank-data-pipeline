@@ -1,7 +1,7 @@
 
 import logging
 
-from src.ingestion.api_client import WorldBankAPIClient
+from .api_client import WorldBankAPIClient
 
 logger = logging.getLogger(__name__)
 

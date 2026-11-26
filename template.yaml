@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: World Bank Population Data Ingestion Pipeline
+
+Parameters:
+  RawBucketName:
+    Type: String
+    Default: my-world-bank-data
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 300
+    MemorySize: 512
+    Environment:
+      Variables:
+        WORLD_BANK_API_URL: https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL
+        API_PAGE_SIZE: "1000"
+        API_TIMEOUT: "30"
+        S3_BUCKET: !Ref RawBucketName
+        S3_PREFIX: raw/world_bank/population
+
+Resources:
+  WorldBankIngestionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src.handler.lambda_handler
+      Description: Extracts World Bank population data and uploads raw JSON to S3
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource: !Sub arn:${AWS::Partition}:s3:::${RawBucketName}/raw/world_bank/population/*

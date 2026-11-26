@@ -1,9 +1,9 @@
 
 import logging
 
-from src.common.logger import setup_logger
-from src.ingestion.extractor import WorldBankExtractor
-from src.ingestion.s3_writer import S3Writer
+from .common.logger import setup_logger
+from .ingestion.extractor import WorldBankExtractor
+from .ingestion.s3_writer import S3Writer
 
 
 def lambda_handler(event, context):

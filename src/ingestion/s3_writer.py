@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import boto3
 
-from src.common.config import config
+from ..common.config import config
 
 logger = logging.getLogger(__name__)
 
